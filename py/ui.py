@@ -15,6 +15,7 @@ os.makedirs(ASSETS_DIR, exist_ok=True)
 os.chdir(BASE)
 sys.path.insert(0, CARPETA)
 import finanzas as fin
+import fondo
 
 with open(os.path.join(CARPETA, "VERSION.txt"), encoding="utf-8-sig") as _f:
     VERSION = _f.read().strip()          # única fuente de la versión (la usa también generar_instaladores.py)
@@ -90,6 +91,7 @@ button:focus-visible,input:focus-visible,[role="tab"]:focus-visible{outline:3px 
 
 def aplicar_estilos():
     st.markdown(CSS, unsafe_allow_html=True)
+    st.markdown(fondo.html("dark" if es_oscuro() else "light"), unsafe_allow_html=True)
 
 
 # ------------------------------------------------------------------ utilidades
