@@ -3,10 +3,11 @@ from ui import *  # noqa: F401,F403  (st, np, pd, go, fin y utilidades comunes)
 
 
 def pag_mercado():
-    titulo_pagina("🌍", "Mercado", "Cómo se ha comportado la bolsa en el pasado: la base de todas las simulaciones")
+    titulo_pagina("public", "Mercado", "Cómo se ha comportado la bolsa en el pasado: la base de todas las simulaciones")
     st.info("Aquí ves los datos reales que usan Cartera, Comparador y Plazos y riesgo. El pasado no garantiza el "
-            "futuro, pero sirve para saber cuánto puede subir y bajar la bolsa.", icon="ℹ️")
+            "futuro, pero sirve para saber cuánto puede subir y bajar la bolsa.", icon=":material/info:")
     with st.container(border=True):
+        bloque("Datos de partida")
         indice = st.selectbox("Índice de bolsa", list(fin.INDICES), key="mk_idx",
                               help="En dólares y con dividendos, sin convertir a euros. El «Mundo largo» empalma "
                                    "MSCI World (1973-2008) con el ETF Vanguard Total World (desde 2009).")
@@ -15,8 +16,8 @@ def pag_mercado():
         st.error(f"No se han podido descargar los datos del índice: {err}")
         return
     st.caption(f"Datos {ret.index.min()}–{ret.index.max()} (índice en dólares, con dividendos, {etiqueta_modo()}).")
-    t_hist, t_caida, t_dec, t_cmp, t_tipos = st.tabs(["📈 Histórico", "📉 Caídas", "🗓️ Décadas y plazos",
-                                                      "🆚 Comparar índices", "🏦 Tipos de interés"])
+    t_hist, t_caida, t_dec, t_cmp, t_tipos = st.tabs([":material/show_chart: Histórico", ":material/trending_down: Caídas", ":material/calendar_month: Décadas y plazos",
+                                                      ":material/compare_arrows: Comparar índices", ":material/account_balance: Tipos de interés"])
     with t_hist:
         cagr = (nivel.iloc[-1] / nivel.iloc[0]) ** (1 / ((nivel.index[-1] - nivel.index[0]).days / 365.25)) - 1
         caida = (nivel / nivel.cummax() - 1)

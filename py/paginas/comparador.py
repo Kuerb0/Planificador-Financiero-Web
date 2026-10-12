@@ -3,9 +3,10 @@ from ui import *  # noqa: F401,F403  (st, np, pd, go, fin y utilidades comunes)
 
 
 def pag_comparador():
-    titulo_pagina("⚖️", "Comparador", "Compara repartos bolsa/renta fija, estrategias y formas de modelar la renta fija")
+    titulo_pagina("balance", "Comparador", "Compara repartos bolsa/renta fija, estrategias y formas de modelar la renta fija")
     tipos, _ = tipos_actuales()
     with st.container(border=True):
+        bloque("Datos de partida")
         a1, a2, a3, a4 = st.columns(4)
         inicial = a1.number_input("Dinero que inviertes hoy (€)", 0, 50_000_000, 10_000, 1_000, key="k_ini")
         aporte = a2.number_input("Ahorro que añades cada año (€)", 0, 5_000_000, 3_000, 500, key="k_apo")
@@ -32,9 +33,9 @@ def pag_comparador():
         return
     w = w_pct / 100
     aportado = inicial + aporte * H
-    t_rep, t_est, t_rf, t_ab, t_fee = st.tabs(["⚖️ Reparto bolsa / renta fija", "🛒 Todo de golpe vs promediando",
-                                               "🏦 Formas de modelar la renta fija", "👥 Cartera A vs B",
-                                               "💸 Comisiones"])
+    t_rep, t_est, t_rf, t_ab, t_fee = st.tabs([":material/balance: Reparto bolsa / renta fija", ":material/shopping_cart: Todo de golpe vs promediando",
+                                               ":material/account_balance: Formas de modelar la renta fija", ":material/group: Cartera A vs B",
+                                               ":material/payments: Comisiones"])
     with t_rep:
         st.markdown("**¿Y si cambio el reparto entre bolsa y renta fija?**")
         explica("Cada punto es un reparto (0 % a 100 % en bolsa). Más a la derecha = más sube y baja. "

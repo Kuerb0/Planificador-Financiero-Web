@@ -3,8 +3,8 @@ from ui import *  # noqa: F401,F403  (st, np, pd, go, fin y utilidades comunes)
 
 
 def pag_cartera():
-    titulo_pagina("📈", "Cartera", "Cuánto podrías tener en el futuro repartiendo tu dinero entre renta fija y variable")
-    with st.expander("ℹ️ Cómo funciona la simulación"):
+    titulo_pagina("show_chart", "Cartera", "Cuánto podrías tener en el futuro repartiendo tu dinero entre renta fija y variable")
+    with st.expander(":material/info: Cómo funciona la simulación"):
         st.markdown("- **Monte Carlo**: sortea miles de veces años reales de la bolsa para crear futuros posibles; "
                     "la mediana es el «caso típico» y el P5/P95 los extremos razonables.\n"
                     "- **Ventanas históricas**: repite periodos reales completos (p. ej. empezar en 1990, en 1991…).\n"
@@ -12,7 +12,7 @@ def pag_cartera():
                     "- La renta fija usa tipos actuales del BCE o la curva histórica según el modo elegido.")
     tipos, errs_tipos = tipos_actuales()
     if errs_tipos:
-        with st.expander("⚠️ No se han podido leer todos los tipos de interés del BCE", expanded=True):
+        with st.expander(":material/warning: No se han podido leer todos los tipos de interés del BCE", expanded=True):
             for k, e in errs_tipos.items():
                 st.write(f"**{ {'euribor12m': 'Euribor 12m', 'bono10': 'Bono euro 10 años'}[k] }**: {e}")
             st.caption("Puedes seguir con un tipo manual (en «Opciones avanzadas»). El detalle técnico queda en "
@@ -24,6 +24,7 @@ def pag_cartera():
 
     st.session_state.setdefault("c_rv", 60)
     with st.container(border=True):
+        bloque("Datos de partida")
         e1, e2 = st.columns([3, 2])
         estrategia = e1.radio("Estrategia", ["Promediar (aportaciones periódicas)", "Buy and hold (todo de golpe)"],
                               horizontal=True, key="c_estr",
@@ -137,9 +138,9 @@ def pag_cartera():
     m[3].metric("Buen escenario", eur(res["p95"]), help="Solo 1 de cada 20 casos acaba mejor que esto (percentil 95).")
     m[4].metric("Prob. de perder", pct(res["prob_perdida"], 1), help="Probabilidad de acabar con menos de lo aportado")
 
-    t_cartera, t_plazos, t_obj = st.tabs(["📈 Tu cartera", "🗓️ A distintos plazos", "🎯 Objetivo y riesgos"])
+    t_cartera, t_plazos, t_obj = st.tabs([":material/show_chart: Tu cartera", ":material/calendar_month: A distintos plazos", ":material/target: Objetivo y riesgos"])
     st.info("¿Quieres comparar repartos o estrategias, o ver el histórico del índice? Tienes las páginas "
-            "**Comparador** y **Mercado** en el menú de la izquierda.", icon="ℹ️")
+            "**Comparador** y **Mercado** en el menú de la izquierda.", icon=":material/info:")
 
     # ------------------------------------------------------------ tu cartera
     with t_cartera:
@@ -272,7 +273,7 @@ def pag_cartera():
         for q_ in (5, 25, 50, 75, 95):
             per[f"P{q_}"] = np.percentile(tray, q_, axis=0)
         per["Aportado"] = inicial + aporte * np.arange(1, H + 1)
-        st.download_button("⬇️ Descargar percentiles por año (CSV)", per.to_csv(index=False, sep=";", decimal=",")
+        st.download_button(":material/download: Descargar percentiles por año (CSV)", per.to_csv(index=False, sep=";", decimal=",")
                            .encode("utf-8-sig"), "percentiles_cartera.csv", "text/csv", key="c_dl")
 
     st.caption("Resultados orientativos basados en el pasado; no son asesoramiento financiero. El índice está en "

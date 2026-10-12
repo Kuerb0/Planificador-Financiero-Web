@@ -9,8 +9,8 @@ def _color_mezcla(w):
 
 
 def pag_plazos():
-    titulo_pagina("⏳", "Plazos y riesgo", "¿Cuántos años hacen falta para que sea raro perder dinero?")
-    with st.expander("ℹ️ Qué significa esta página"):
+    titulo_pagina("hourglass_top", "Plazos y riesgo", "¿Cuántos años hacen falta para que sea raro perder dinero?")
+    with st.expander(":material/info: Qué significa esta página"):
         st.markdown("Se miran **todas las ventanas posibles del pasado** (aunque se solapen) de cada duración y "
                     "se cuenta en cuántas acabarías con menos dinero del que pusiste. Cuanto más largo el plazo, "
                     "menos ventanas pierden. La curva se suaviza con una media móvil de 52 semanas y la rentabilidad "
@@ -19,6 +19,7 @@ def pag_plazos():
     rf_def = tipos.get("euribor12m") if tipos.get("euribor12m") is not None else 0.025
     st.session_state.setdefault("p_rv", 60)
     with st.container(border=True):
+        bloque("Datos de partida")
         p2, p4 = st.columns([2, 3])
         w_pct = p2.slider("Tu reparto: % en bolsa (el resto, renta fija)", 0, 100, key="p_rv", step=5)
         estrategia_ph = p4
@@ -60,12 +61,12 @@ def pag_plazos():
     n_sem = len(serie_semanal(indice))
     indep = ", ".join(f"{h} años → {fin.ventanas_independientes(n_sem, h * 52)}" for h in (5, 10, 20)
                       if fin.ventanas_independientes(n_sem, h * 52) > 0)
-    st.caption(f"⚠️ Las ventanas se solapan: con {n_sem / 52:.0f} años de historia solo hay estas ventanas que no "
+    st.caption(f":material/warning: Las ventanas se solapan: con {n_sem / 52:.0f} años de historia solo hay estas ventanas que no "
                f"comparten datos: {indep}. Las probabilidades a plazos largos se apoyan en muy pocos casos "
                "independientes; tómalas como orientación, no como certeza.")
 
-    t_prob, t_tabla, t_rent, t_mas = st.tabs(["📉 Probabilidad de perder", "🔢 Tabla de equivalencias",
-                                              "📊 TIR según el plazo (buy and hold)", "🔬 Más análisis"])
+    t_prob, t_tabla, t_rent, t_mas = st.tabs([":material/trending_down: Probabilidad de perder", ":material/calculate: Tabla de equivalencias",
+                                              ":material/bar_chart: TIR según el plazo (buy and hold)", ":material/query_stats: Más análisis"])
 
     with t_prob:
         st.markdown(f"**¿Cuántas veces habrías perdido dinero según el plazo? ({nom})**")
@@ -192,7 +193,7 @@ def pag_plazos():
         if tablas_m:
             exp = pd.DataFrame(tablas_m)
             exp.index.name = "Años"
-            st.download_button("⬇️ Descargar valores por plazo (CSV)",
+            st.download_button(":material/download: Descargar valores por plazo (CSV)",
                                exp.reset_index().to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig"),
                                "plazos_escenarios.csv", "text/csv", key="p_dl")
 

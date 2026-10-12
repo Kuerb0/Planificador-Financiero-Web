@@ -30,10 +30,15 @@ NEON = {"cap": "#22F0FF", "tin": "#FF4FD8", "n": "#A6FF3D", "cuota": "#FFB02E", 
 CSS = """<style>
 .block-container{padding-top:2.2rem;max-width:1500px}
 .cab{display:flex;align-items:center;gap:14px;margin:0 0 10px}
-.cab-ico{font-size:1.7rem;line-height:1;display:grid;place-items:center;width:46px;height:46px;
- border-radius:14px;background:rgba(128,128,128,.14);border:1px solid rgba(128,128,128,.2)}
+.cab-ico{font-family:"Material Symbols Rounded";font-weight:400;font-style:normal;font-size:1.65rem;line-height:1;
+ font-feature-settings:"liga";-webkit-font-feature-settings:"liga";display:grid;place-items:center;width:46px;height:46px;
+ border-radius:12px;background:rgba(76,154,255,.14);border:1px solid rgba(76,154,255,.35);color:#4C9AFF;flex:none}
 .cab h1{font-size:1.9rem;font-weight:700;margin:0;padding:0;letter-spacing:-.02em}
-.cab-sub{margin:2px 0 0;font-size:.9rem;opacity:.62}
+.bloque{display:flex;align-items:center;gap:.55rem;font-weight:650;font-size:1.02rem;margin:0 0 .5rem}
+.bloque span{font-family:"Material Symbols Rounded";font-weight:400;font-size:1.25rem;line-height:1;font-feature-settings:"liga";
+ -webkit-font-feature-settings:"liga";display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;border-radius:8px;
+ background:rgba(76,154,255,.14);color:#4C9AFF}
+.cab-sub{margin:2px 0 0;font-size:.95rem;opacity:.8}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 20px}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:999px;
  background:rgba(128,128,128,.10);border:1px solid rgba(128,128,128,.20);font-size:.84rem;
@@ -45,7 +50,7 @@ CSS = """<style>
 [data-testid="stMetricValue"]{font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
 [data-testid="stMetricValue"]>div,[data-testid="stMetricLabel"]>div,[data-testid="stMetricDelta"]>div{
  overflow:visible!important;text-overflow:clip!important;white-space:normal!important;line-height:1.25}
-[data-testid="stMetricLabel"] p{font-size:.82rem;opacity:.7;text-transform:uppercase;letter-spacing:.04em}
+[data-testid="stMetricLabel"] p{font-size:.82rem;opacity:.82;text-transform:uppercase;letter-spacing:.04em}
 h2,h3{letter-spacing:-.01em}
 [data-testid="stHeadingWithActionElements"] h2{font-size:1.25rem;margin-top:1.6rem;
  padding-bottom:.4rem;border-bottom:1px solid rgba(128,128,128,.18)}
@@ -53,11 +58,14 @@ h2,h3{letter-spacing:-.01em}
 [data-testid="stElementContainer"] .stButton>button{border-radius:10px}
 [data-testid="stSidebar"] [data-testid="stExpander"]{border:none;background:rgba(128,128,128,.06);
  border-radius:12px;margin-bottom:8px}
-[data-testid="stCaptionContainer"] p{opacity:.72}
+[data-testid="stCaptionContainer"] p{opacity:.82}
 [data-testid="stStatusWidget"]{visibility:hidden}
 [data-testid="stMarkdownContainer"] p,[data-testid="stMarkdownContainer"] li{font-size:1.02rem;line-height:1.55}
-button:focus-visible,input:focus-visible,[role="tab"]:focus-visible{outline:3px solid #22F0FF!important;outline-offset:2px}
-[data-baseweb="tab-list"] button{font-size:1.02rem;padding:.55rem 1rem}
+button:focus-visible,input:focus-visible,a:focus-visible,[role="tab"]:focus-visible{outline:3px solid #4C9AFF!important;outline-offset:2px}
+a{text-underline-offset:2px}
+[data-testid="stSidebarNav"] a,[data-testid="stPageLink-NavLink"]{border-radius:8px}
+[data-baseweb="tab-list"] button{font-size:1.02rem;padding:.65rem 1rem;min-height:44px}
+@media (max-width:640px){h1{font-size:1.6rem!important}.cab h1{font-size:1.5rem}.chip{white-space:normal}}
 .resumen{background:rgba(76,154,255,.10);border:1px solid rgba(76,154,255,.35);border-radius:14px;
  padding:14px 18px;margin:6px 0 16px;font-size:1.08rem;line-height:1.6}
 
@@ -126,9 +134,14 @@ def explica(texto):
 
 
 def titulo_pagina(icono, texto, subtitulo=None):
-    st.markdown(f'<div class="cab"><span class="cab-ico">{icono}</span><div><h1>{texto}</h1>'
+    st.markdown(f'<div class="cab"><span class="cab-ico" aria-hidden="true">{icono}</span><div><h1>{texto}</h1>'
                 + (f'<p class="cab-sub">{subtitulo}</p>' if subtitulo else "") + "</div></div>",
                 unsafe_allow_html=True)
+
+
+def bloque(titulo, icono="tune"):
+    """Encabezado de un bloque de datos de entrada (icono y título), para que todas las páginas arranquen igual."""
+    st.markdown(f'<div class="bloque"><span aria-hidden="true">{icono}</span>{titulo}</div>', unsafe_allow_html=True)
 
 
 def chips(lista):

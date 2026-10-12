@@ -3,8 +3,8 @@ from ui import *  # noqa: F401,F403  (st, np, pd, go, fin y utilidades comunes)
 
 
 def pag_asignador():
-    titulo_pagina("🧩", "Asignador", "Qué porcentaje de bolsa te conviene según tu perfil de riesgo y el tiempo que te queda")
-    with st.expander("ℹ️ Cómo se calcula"):
+    titulo_pagina("pie_chart", "Asignador", "Qué porcentaje de bolsa te conviene según tu perfil de riesgo y el tiempo que te queda")
+    with st.expander(":material/info: Cómo se calcula"):
         st.markdown(
             "1. **Tu nota del test** (Grable-Lytton) se convierte en una **nota T**: la escala estándar de la psicometría, "
             "con media 50 y desviación 10. Con ±5 desviaciones cubre justo de 0 a 100, así que esa nota se lee "
@@ -23,6 +23,7 @@ def pag_asignador():
     tipos, _ = tipos_actuales()
     rf_def = tipos.get("euribor12m") if tipos.get("euribor12m") is not None else 0.025
     with st.container(border=True):
+        bloque("Datos de partida")
         a1, a2, a3 = st.columns([2, 2, 2])
         opciones = usuarios + ["Introducir la nota a mano"]
         ya = perfiles.get("activo")
@@ -93,7 +94,7 @@ def pag_asignador():
     m[4].metric("Suelo del mal escenario", pct(suelo, 1) + " anual",
                 help="El mal escenario de tu reparto, en rentabilidad anual, no baja de aquí.")
 
-    t_rec, t_sim, t_mat = st.tabs(["🎯 Recomendación", "🧪 Simulación dinámica", "🗂️ Perfiles y plazos"])
+    t_rec, t_sim, t_mat = st.tabs([":material/target: Recomendación", ":material/science: Simulación dinámica", ":material/folder_open: Perfiles y plazos"])
     with t_rec:
         g1, g2 = st.columns(2, gap="large")
         with g1:
@@ -150,7 +151,7 @@ def pag_asignador():
                                                                                    "peor a los años que quedan."),
                 "Ajustas a": st.column_config.NumberColumn("Ajustas a (bolsa)", format="percent")})
 
-        st.download_button("⬇️ Descargar el plan (CSV)", plan.to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig"),
+        st.download_button(":material/download: Descargar el plan (CSV)", plan.to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig"),
                            file_name="plan_asignador.csv", mime="text/csv", key="s_dl")
 
     # ================================================================ simulación dinámica

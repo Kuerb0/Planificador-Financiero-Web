@@ -54,8 +54,8 @@ def formula_neon(cap, tin, n_meses, c, tipo, df, tin2=None, c2=None, anios_fijos
 
 
 def pag_hipoteca():
-    titulo_pagina("🏠", "Hipoteca", "Calcula cuánto pagarás al mes y cuánto te costará el préstamo")
-    with st.expander("ℹ️ Cómo usar esta página"):
+    titulo_pagina("home", "Hipoteca", "Calcula cuánto pagarás al mes y cuánto te costará el préstamo")
+    with st.expander(":material/info: Cómo usar esta página"):
         st.markdown("1. Rellena arriba el precio, lo que aportas de entrada, los años y el tipo de interés.\n"
                     "2. Elige **fija, variable o mixta**: en la variable el tipo es Euribor + diferencial y se revisa cada año.\n"
                     "3. En «Opciones avanzadas» añades gastos de compra, seguros y **amortizaciones anticipadas**.\n"
@@ -64,6 +64,7 @@ def pag_hipoteca():
     eur_def = tipos["euribor12m"] if tipos.get("euribor12m") is not None else 0.025
 
     with st.container(border=True):
+        bloque("Datos de la hipoteca")
         c1, c2, c3, c4 = st.columns(4)
         precio = c1.number_input("Precio de la vivienda (€)", 20_000, 5_000_000, 250_000, 5_000, key="h_precio")
         entrada_pct = c2.number_input("Entrada (%)", 0.0, 100.0, 20.0, 1.0, key="h_entrada",
@@ -169,8 +170,8 @@ def pag_hipoteca():
                     delta_color="off")
         a[2].metric("Cuota final", eur(float(con_extra.cuota.iloc[-1]), 2))
 
-    t_graf, t_compra, t_mas, t_cuadro = st.tabs(["📊 Gráficos", "🧾 Compra y gastos", "🔍 Más análisis",
-                                                 "📋 Cuadro de amortización"])
+    t_graf, t_compra, t_mas, t_cuadro = st.tabs([":material/bar_chart: Gráficos", ":material/receipt_long: Compra y gastos", ":material/search: Más análisis",
+                                                 ":material/table_chart: Cuadro de amortización"])
 
     with t_graf:
         g1, g2 = st.columns(2, gap="large")
@@ -234,10 +235,10 @@ def pag_hipoteca():
         ingresos = q1.number_input("Ingresos netos al mes (€)", 500, 50_000, 3_000, 100, key="h_ingr",
                                    help="Suma de lo que cobráis al mes después de impuestos.")
         ratio = c0 / ingresos
-        estado = "🟢 Cómoda" if ratio <= 0.30 else ("🟠 Ajustada" if ratio <= 0.35 else "🔴 Demasiado alta")
+        estado, color = (("Cómoda", "normal") if ratio <= 0.30 else (("Ajustada", "off") if ratio <= 0.35 else ("Demasiado alta", "inverse")))
         with q2:
             mm = st.columns(3)
-            mm[0].metric("Cuota / ingresos", pct(ratio, 0), delta=estado, delta_color="off")
+            mm[0].metric("Cuota / ingresos", pct(ratio, 0), delta=estado, delta_color=color, delta_arrow="off")
             cuota_max = ingresos * 0.35
             cap_max = cuota_max / fin.cuota(1.0, tin0, n)
             mm[1].metric("Cuota máxima (35 %)", eur(cuota_max, 0))

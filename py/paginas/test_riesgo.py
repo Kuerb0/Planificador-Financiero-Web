@@ -3,7 +3,7 @@ from ui import *  # noqa: F401,F403  (st, np, pd, go, fin y utilidades comunes)
 
 
 def pag_test():
-    titulo_pagina("🧭", "Test de riesgo", "Tolerancia al riesgo financiero (cuestionario de Grable y Lytton, 13 preguntas)")
+    titulo_pagina("explore", "Test de riesgo", "Tolerancia al riesgo financiero (cuestionario de Grable y Lytton, 13 preguntas)")
     perfiles = fin.leer_perfiles()
     usuarios = list(perfiles["usuarios"])
     mn, mx = fin.puntuacion_min_max()
@@ -39,7 +39,7 @@ def pag_test():
         return
     filas = []
     for u, p in perfiles["usuarios"].items():
-        filas.append({"Usuario": u + (" ★" if u == perfiles.get("activo") else ""), "Fecha": p["fecha"],
+        filas.append({"Usuario": u + (" (activo)" if u == perfiles.get("activo") else ""), "Fecha": p["fecha"],
                       "Puntos": p["puntuacion"], "Nivel": p["nivel"], "% renta variable sugerido": p["rv_sugerida"]})
     st.dataframe(pd.DataFrame(filas), hide_index=True, width="stretch")
 
@@ -50,8 +50,8 @@ def pag_test():
     st.markdown(f'<div class="medidor"><i style="left:calc({pos:.1f}% - 2px)"></i></div>'
                 '<div style="display:flex;justify-content:space-between;font-size:.85rem;opacity:.75;margin-top:-18px">'
                 '<span>Prudente</span><span>Equilibrado</span><span>Arriesgado</span></div>', unsafe_allow_html=True)
-    t_res, t_des, t_evo, t_vivir = st.tabs(["📊 Tu resultado", "🧠 Desglose por pregunta", "📈 Evolución",
-                                            "🎢 Cómo lo habrías vivido"])
+    t_res, t_des, t_evo, t_vivir = st.tabs([":material/bar_chart: Tu resultado", ":material/psychology: Desglose por pregunta", ":material/show_chart: Evolución",
+                                            ":material/timeline: Cómo lo habrías vivido"])
     with t_res:
         k = st.columns(3)
         k[0].metric("Puntuación", f"{p['puntuacion']} / {mx}")

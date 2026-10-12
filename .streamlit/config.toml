@@ -1,0 +1,8 @@
+# Mismo azul de acento en los dos temas; cada uno sigue el del sistema.
+[theme.light]
+primaryColor = "#1a5fcf"
+baseRadius = "medium"
+
+[theme.dark]
+primaryColor = "#4d8ff7"
+baseRadius = "medium"

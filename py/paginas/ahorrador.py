@@ -12,20 +12,21 @@ def datos_mortalidad():
 
 
 def pag_ahorrador():
-    titulo_pagina("💰", "Ahorrador", "Cuánto necesitas para jubilarte con tu nivel de vida y cuánto tardas en llegar a una meta")
-    with st.expander("ℹ️ Cómo funciona el Ahorrador"):
+    titulo_pagina("savings", "Ahorrador", "Cuánto necesitas para jubilarte con tu nivel de vida y cuánto tardas en llegar a una meta")
+    with st.expander(":material/info: Cómo funciona el Ahorrador"):
         st.markdown("- Todo se calcula en **euros de hoy**: se descuenta la inflación para que las cifras se entiendan.\n"
                     "- **Capital necesario** = valor, el día que te jubilas, de los gastos mensuales que tu pensión no cubre.\n"
                     "- **Edad fija**: aseguras el gasto hasta una edad concreta. **Probabilidad de seguir vivo**: cada "
                     "mes de gasto se multiplica por la probabilidad de estar vivo (tablas de mortalidad del INE, "
                     "sabiendo que llegas vivo a la jubilación), sin fijar un tope duro.\n"
                     "- La pestaña **Meta de ahorro** calcula cuántos meses o cuánto al mes para llegar a una cantidad.")
-    t_jub, t_meta, t_fire, t_fondo = st.tabs(["🎯 Jubilación", "⏱️ Meta de ahorro", "🔥 Independencia financiera",
-                                                "🛟 Fondo de emergencia"])
+    t_jub, t_meta, t_fire, t_fondo = st.tabs([":material/target: Jubilación", ":material/timer: Meta de ahorro", ":material/local_fire_department: Independencia financiera",
+                                                ":material/shield: Fondo de emergencia"])
 
     # ================================================================ jubilación
     with t_jub:
         with st.container(border=True):
+            bloque("Datos de partida")
             c1, c2, c3, c4 = st.columns(4)
             edad = c1.number_input("Tu edad actual", 16, 80, 30, 1, key="a_edad")
             edad_ret = c2.number_input("Edad a la que te jubilas", 40, 80, 67, 1, key="a_ret",
@@ -214,6 +215,7 @@ def pag_ahorrador():
                 "gastos sin tener que trabajar. La regla clásica es el 4 % (capital = 25 veces el gasto anual). "
                 "Cifras en euros de hoy.")
         with st.container(border=True):
+            bloque("Datos de partida")
             f1, f2, f3, f4 = st.columns(4)
             gasto_f = f1.number_input("Gasto mensual que quieres cubrir (€)", 300, 50_000, 1_800, 50, key="f_gasto")
             tasa_f = f2.number_input("Tasa de retirada segura (%)", 2.0, 8.0, 4.0, 0.25, key="f_tasa",
@@ -263,6 +265,7 @@ def pag_ahorrador():
         explica("Colchón de dinero fácil de sacar para imprevistos (perder el empleo, una avería…). Lo habitual son "
                 "3-6 meses de gastos esenciales; más si tu ingreso es variable.")
         with st.container(border=True):
+            bloque("Datos de partida")
             h1, h2, h3, h4 = st.columns(4)
             gasto_e = h1.number_input("Gastos esenciales al mes (€)", 200, 20_000, 1_400, 50, key="e_gasto")
             meses_e = h2.slider("Meses de colchón", 1, 24, 6, 1, key="e_meses")
@@ -289,6 +292,7 @@ def pag_ahorrador():
         modo = st.radio("¿Qué quieres calcular?", ["¿Cuántos meses necesito ahorrar?", "¿Cuánto debo ahorrar al mes?"],
                         horizontal=True, key="m_modo")
         with st.container(border=True):
+            bloque("Datos de partida")
             q1, q2, q3, q4 = st.columns(4)
             objetivo = q1.number_input("Cantidad que quieres conseguir (€)", 100, 50_000_000, 20_000, 500, key="m_obj")
             ahorro_ini = q2.number_input("Lo que ya tienes (€)", 0, 50_000_000, 0, 500, key="m_ini")
