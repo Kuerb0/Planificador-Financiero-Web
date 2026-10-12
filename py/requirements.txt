@@ -1,0 +1,10 @@
+# Rangos acotados: se aceptan parches y versiones menores, pero no saltos de versión mayor que puedan romper la app.
+# Probado con: streamlit 1.64 · plotly 7.1 · pandas 3.0 · numpy 2.5 · yfinance 1.7 (Python 3.13/3.14).
+# Sin pystray ni pywebview (solo de la versión de escritorio): no instalan en Linux, que es lo que usa Streamlit Cloud.
+streamlit>=1.40,<2
+plotly>=5.20,<8
+pandas>=2.2,<4
+numpy>=1.26,<3
+yfinance>=0.2.50,<2
+requests>=2.31,<3
+certifi>=2024.2.2
